@@ -22,13 +22,18 @@ Processor& System::Cpu() { return cpu_; }
 vector<Process>& System::Processes() {
   vector<int> pids{LinuxParser::Pids()};
   set<int> pid_set;
-  for (const int &pid: pids) {
-    pid_set.insert(pid);
+
+  for (Process const& process : processes_) {
+    pid_set.insert(process.Pid());
   }
-  for (int pid : pid_set) {
-    Process p(pid);
-    processes_.emplace_back(p);
+
+  for (int pid : pids) {
+    if (pid_set.find(pid) == pid_set.end()) { // if pid is not in set
+      Process p(pid);
+      processes_.emplace_back(p);             // inserting only new pids
+    }
   }
+
   return processes_; 
 }
 
