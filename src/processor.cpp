@@ -16,7 +16,7 @@ float Processor::Utilization() {
   long diff_idle_jiffes{idle_jiffies - prev_idle_jiffies};
   long total_jiffies{diff_active_jiffies + diff_idle_jiffes};
 
-  utilization = diff_active_jiffies/total_jiffies;
+  utilization = static_cast<float>(diff_active_jiffies)/total_jiffies;
   prev_active_jiffies = active_jiffies;
   prev_idle_jiffies = idle_jiffies;
   
