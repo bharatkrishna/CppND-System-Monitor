@@ -8,16 +8,17 @@ using std::vector;
 
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization() { 
-    vector<string> cpu_utilizations = LinuxParser::CpuUtilization(); 
-    float total_cpu_time;
-    float total_cpu_idle_time = stof(cpu_utilizations.at(3)) + stof(cpu_utilizations.at(4));
+  float utilization{0};
+  long idle_jiffies = LinuxParser::IdleJiffies();
+  long active_jiffies = LinuxParser::ActiveJiffies();
 
-    for (int i=0; i<8; i++) {
-      total_cpu_time += stof(cpu_utilizations.at(i));
-    }
+  long diff_active_jiffies{active_jiffies - prev_active_jiffies};
+  long diff_idle_jiffes{idle_jiffies - prev_idle_jiffies};
+  long total_jiffies{diff_active_jiffies + diff_idle_jiffes};
 
-    float total_cpu_usage_time = total_cpu_time - total_cpu_idle_time;
-    float total_cpu_util_pct = (total_cpu_usage_time / total_cpu_time) * 100;
-
-    return total_cpu_util_pct;
+  utilization = diff_active_jiffies/total_jiffies;
+  prev_active_jiffies = active_jiffies;
+  prev_idle_jiffies = idle_jiffies;
+  
+  return utilization;
 }
