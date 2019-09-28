@@ -17,7 +17,9 @@ Process::Process(int pid) : pid_(pid) {}
 int Process::Pid() const { return pid_; }
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { return LinuxParser::ActiveJiffies(pid_); }
+float Process::CpuUtilization() {
+  return static_cast<float>(LinuxParser::ActiveJiffies(pid_)) / LinuxParser::Jiffies();
+}
 
 // TODO: Return the command that generated this process
 string Process::Command() { return LinuxParser::Command(pid_); }
