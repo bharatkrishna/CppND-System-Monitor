@@ -12,13 +12,13 @@ float Processor::Utilization() {
   long idle_jiffies = LinuxParser::IdleJiffies();
   long active_jiffies = LinuxParser::ActiveJiffies();
 
-  long diff_active_jiffies{active_jiffies - prev_active_jiffies};
-  long diff_idle_jiffes{idle_jiffies - prev_idle_jiffies};
+  long diff_active_jiffies{active_jiffies - prev_active_jiffies_};
+  long diff_idle_jiffes{idle_jiffies - prev_idle_jiffies_};
   long total_jiffies{diff_active_jiffies + diff_idle_jiffes};
 
   utilization = static_cast<float>(diff_active_jiffies)/total_jiffies;
-  prev_active_jiffies = active_jiffies;
-  prev_idle_jiffies = idle_jiffies;
+  prev_active_jiffies_ = active_jiffies;
+  prev_idle_jiffies_ = idle_jiffies;
   
   return utilization;
 }
