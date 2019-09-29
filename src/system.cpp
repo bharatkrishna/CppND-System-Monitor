@@ -34,6 +34,10 @@ vector<Process>& System::Processes() {
     }
   }
 
+  for (Process& process : processes_) {
+    process.CalculateCpuUtilization();
+  }
+
   return processes_; 
 }
 
