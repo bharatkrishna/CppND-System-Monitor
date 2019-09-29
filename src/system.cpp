@@ -37,7 +37,8 @@ vector<Process>& System::Processes() {
   for (Process& process : processes_) {
     process.CalculateCpuUtilization();
   }
-
+  
+  std::sort(processes_.begin(), processes_.end(), std::greater<Process>());
   return processes_; 
 }
 

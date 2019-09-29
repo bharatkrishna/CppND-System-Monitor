@@ -48,3 +48,7 @@ long int Process::UpTime() { return LinuxParser::UpTime(pid_); }
 bool Process::operator<(Process const& a) const {
   return CpuUtilization() < a.CpuUtilization();
 }
+
+bool Process::operator>(Process const& a) const {
+  return CpuUtilization() > a.CpuUtilization();
+}
